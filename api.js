@@ -68,7 +68,7 @@ export function uploadImage({ file }) {
   });
 }
 
-export function post({ description, imageUrl, token }) {
+export function post({ token, description, imageUrl }) {
   return fetch(postsHost, {
     method: "POST",
     headers: {

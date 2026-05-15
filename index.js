@@ -110,10 +110,13 @@ const renderApp = () => {
     return renderAddPostPageComponent({
       appEl,
       onAddPostClick({ description, imageUrl }) {
-        console.log(getToken());
-        post(description, imageUrl, getToken());
-        console.log("Добавляю пост...", { description, imageUrl });
-        goToPage(POSTS_PAGE);
+        post({ token: getToken(), description, imageUrl })
+          .then(() => getPosts({ token: getToken() }))
+          .then((newPosts) => {
+            posts = newPosts;
+            goToPage(POSTS_PAGE);
+            console.log("Добавляю пост...", { description, imageUrl });
+          });
       },
     });
   }
