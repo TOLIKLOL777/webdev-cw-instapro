@@ -1,10 +1,10 @@
-// import { formatDistanceToNow } from "date-fns";
+import { formatDistanceToNow } from "https://esm.run/date-fns/formatDistanceToNow";
+import { ru } from "https://esm.run/date-fns/locale/ru";
 import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
 import { posts, goToPage } from "../index.js";
 
 export function renderPostsPageComponent({ appEl }) {
-  // @TODO: реализовать рендер постов из api
   console.log("Актуальный список постов:", posts);
   const commentsEl = document.getElementById("posts");
 
@@ -15,6 +15,10 @@ export function renderPostsPageComponent({ appEl }) {
 
   const posts_list = posts
     .map((post) => {
+      const createdAt = formatDistanceToNow(new Date(post.createdAt), {
+        addSuffix: true,
+        locale: ru,
+      });
       return `<li class="post">
           <div class="post-header" data-user-id="${post.user.id}">
               <img src="${post.user.imageUrl}" class="post-header__user-image">
@@ -28,7 +32,7 @@ export function renderPostsPageComponent({ appEl }) {
               <img src="./assets/images/like-active.svg">
             </button>
             <p class="post-likes-text">
-              Нравится: <strong>2</strong>
+              Нравится: <strong>${post.likes.length}</strong>
             </p>
           </div>
           <p class="post-text">
@@ -36,7 +40,7 @@ export function renderPostsPageComponent({ appEl }) {
             ${post.description}
           </p>
           <p class="post-date">
-            {formatDistanceToNow(post.createdAt)}
+            ${createdAt}
           </p>
         </li>`;
     })
