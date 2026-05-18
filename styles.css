@@ -93,7 +93,26 @@
   cursor: pointer;
 }
 
-.like-wait {
+@keyframes rotating {
+  from {
+    transform: scale(100%);
+  }
+  25% {
+    transform: scale(85%);
+  }
+  75% {
+    transform: scale(115%);
+  }
+  to {
+    transform: scale(100%);
+  }
+}
+
+.-loading-like {
+  animation: rotating 3s linear infinite;
+}
+
+.-loading-like {
   pointer-events: none;
 }
 

@@ -96,6 +96,9 @@ export function likePost({ token, id }) {
       Authorization: token,
     },
   }).then((response) => {
+    if (response.status === 401) {
+      alert("Нет авторизации");
+    }
     return response.json();
   });
 }
@@ -107,6 +110,9 @@ export function dislikePost({ token, id }) {
       Authorization: token,
     },
   }).then((response) => {
+    if (response.status === 401) {
+      alert("Нет авторизации");
+    }
     return response.json();
   });
 }

@@ -26,7 +26,10 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
 
     document.getElementById("add-button").addEventListener("click", () => {
       onAddPostClick({
-        description: document.getElementById("post_desc").value,
+        description: document
+          .getElementById("post_desc")
+          .value.replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;"),
         imageUrl: imageUrl,
       });
     });

@@ -148,8 +148,10 @@ export function initLikesButton(user) {
     likeButton.addEventListener("click", (event) => {
       const id = likeButton.dataset.postId;
       let postId = posts[id].id;
-      document.body.style.cursor = "wait";
-      likeButton.classList.add("like-wait");
+      if (user) {
+        document.body.style.cursor = "wait";
+        likeButton.classList.add("-loading-like");
+      }
       posts[id].isLiked
         ? dislikePost({ token: getToken(), id: postId })
             .then(() => getPosts({ token: getToken() }))
@@ -158,7 +160,7 @@ export function initLikesButton(user) {
             })
             .then(() => {
               document.body.style.cursor = "default";
-              likeButton.classList.remove("like-wait");
+              likeButton.classList.remove("-loading-like");
               renderApp();
             })
         : likePost({ token: getToken(), id: postId })
@@ -168,7 +170,7 @@ export function initLikesButton(user) {
             })
             .then(() => {
               document.body.style.cursor = "default";
-              likeButton.classList.remove("like-wait");
+              likeButton.classList.remove("-loading-like");
               renderApp();
             });
     });
