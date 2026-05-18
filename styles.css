@@ -93,6 +93,29 @@
   cursor: pointer;
 }
 
+@keyframes rotating {
+  from {
+    transform: scale(100%);
+  }
+  25% {
+    transform: scale(85%);
+  }
+  75% {
+    transform: scale(115%);
+  }
+  to {
+    transform: scale(100%);
+  }
+}
+
+.-loading-like {
+  animation: rotating 3s linear infinite;
+}
+
+.-loading-like {
+  pointer-events: none;
+}
+
 .user-name {
   font-weight: 500;
 }
@@ -128,6 +151,33 @@
 
 .posts-user-header__user-name {
   font-size: 28px;
+  line-height: 35px;
+}
+
+.user-page-title {
+  font-size: 50px;
+  line-height: 35px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.user-page-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.user-page-header__user-image {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 40px;
+  margin-right: 10px;
+}
+
+.user-page-header__user-name {
+  font-size: 40px;
   line-height: 35px;
 }
 
@@ -176,7 +226,14 @@
   text-align: center;
 }
 
-.file-upload-image-conrainer {
+.add-post-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 4px;
+}
+
+.file-upload-image-container {
   display: flex;
   align-items: center;
 }
