@@ -226,6 +226,13 @@
   text-align: center;
 }
 
+.add-post-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 4px;
+}
+
 .file-upload-image-container {
   display: flex;
   align-items: center;
