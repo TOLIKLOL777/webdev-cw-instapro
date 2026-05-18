@@ -1,4 +1,4 @@
-import { getPosts, post } from "./api.js";
+import { getPosts, post, likePost, dislikePost } from "./api.js";
 import { renderAddPostPageComponent } from "./components/add-post-page-component.js";
 import { renderAuthPageComponent } from "./components/auth-page-component.js";
 import {
@@ -8,7 +8,10 @@ import {
   POSTS_PAGE,
   USER_POSTS_PAGE,
 } from "./routes.js";
-import { renderPostsPageComponent } from "./components/posts-page-component.js";
+import {
+  renderPostsPageComponent,
+  renderUserPostsPageComponent,
+} from "./components/posts-page-component.js";
 import { renderLoadingPageComponent } from "./components/loading-page-component.js";
 import {
   getUserFromLocalStorage,
@@ -67,11 +70,16 @@ export const goToPage = (newPage, data) => {
     }
 
     if (newPage === USER_POSTS_PAGE) {
-      // @@TODO: реализовать получение постов юзера из API
       console.log("Открываю страницу пользователя: ", data.userId);
-      page = USER_POSTS_PAGE;
-      posts = [];
-      return renderApp();
+      return getPosts({ token: getToken() })
+        .then((newPosts) => {
+          page = USER_POSTS_PAGE;
+          posts = newPosts.filter((post) => post.user.id === data.userId);
+          renderApp();
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
 
     page = newPage;
@@ -128,10 +136,43 @@ const renderApp = () => {
   }
 
   if (page === USER_POSTS_PAGE) {
-    // @TODO: реализовать страницу с фотографиями отдельного пользвателя
-    appEl.innerHTML = "Здесь будет страница фотографий пользователя";
-    return;
+    return renderUserPostsPageComponent({
+      appEl,
+    });
   }
 };
+
+export function initLikesButton(user) {
+  const appEl = document.getElementById("app");
+  for (let likeButton of document.querySelectorAll(".like-button")) {
+    likeButton.addEventListener("click", (event) => {
+      const id = likeButton.dataset.postId;
+      let postId = posts[id].id;
+      document.body.style.cursor = "wait";
+      likeButton.classList.add("like-wait");
+      posts[id].isLiked
+        ? dislikePost({ token: getToken(), id: postId })
+            .then(() => getPosts({ token: getToken() }))
+            .then((newPosts) => {
+              posts = newPosts;
+            })
+            .then(() => {
+              document.body.style.cursor = "default";
+              likeButton.classList.remove("like-wait");
+              renderApp();
+            })
+        : likePost({ token: getToken(), id: postId })
+            .then(() => getPosts({ token: getToken() }))
+            .then((newPosts) => {
+              posts = newPosts;
+            })
+            .then(() => {
+              document.body.style.cursor = "default";
+              likeButton.classList.remove("like-wait");
+              renderApp();
+            });
+    });
+  }
+}
 
 goToPage(POSTS_PAGE);

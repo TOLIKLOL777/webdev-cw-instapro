@@ -93,6 +93,10 @@
   cursor: pointer;
 }
 
+.like-wait {
+  pointer-events: none;
+}
+
 .user-name {
   font-weight: 500;
 }
@@ -128,6 +132,33 @@
 
 .posts-user-header__user-name {
   font-size: 28px;
+  line-height: 35px;
+}
+
+.user-page-title {
+  font-size: 50px;
+  line-height: 35px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.user-page-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.user-page-header__user-image {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 40px;
+  margin-right: 10px;
+}
+
+.user-page-header__user-name {
+  font-size: 40px;
   line-height: 35px;
 }
 
